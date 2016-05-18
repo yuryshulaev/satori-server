@@ -5,6 +5,7 @@ class SatoriServer {
 	constructor() {
 		this.html = this.createTagFactories(this.constructor.TAGS);
 		Object.assign(this, this.html);
+		this.Key = this.constructor.Key;
 	}
 
 	createTagFactories(tags, obj) {
