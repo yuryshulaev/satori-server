@@ -1,7 +1,7 @@
 'use strict'
 
 require('mocha');
-const SatoriServer = require('../satori_server').SatoriServer;
+const {SatoriServer} = require('..');
 const assert = require('chai').assert;
 
 describe('SatoriServer', function () {

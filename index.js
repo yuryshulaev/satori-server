@@ -50,7 +50,7 @@ class SatoriServer {
 			content = this.list(modifiers.list);
 		}
 
-		content = this.getValue(content);
+		content = this.getValue(content != null ? content : modifiers.content);
 
 		if (content instanceof Array) {
 			content = content.join('');
