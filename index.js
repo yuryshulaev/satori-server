@@ -54,18 +54,18 @@ class SatoriServer {
 
 		content = this.getValue(content != null ? content : modifiers.content);
 		let hasContent = content != null;
-		let contentSafe;
+		let escapedContent;
 
 		if (hasContent) {
 			if (content instanceof Array) {
-				contentSafe = content.map(conditionalEscape).join('');
+				escapedContent = content.map(conditionalEscape).join('');
 			} else {
-				contentSafe = conditionalEscape(content);
+				escapedContent = conditionalEscape(content);
 			}
 		}
 
 		return new SafeString('<' + tag + (attrs.length ? ' ' + attrs.join(' ') : '') +
-			(hasContent ? '>' + contentSafe + '</' + tag + '>' : '/>'));
+			(hasContent ? '>' + escapedContent + '</' + tag + '>' : '/>'));
 	}
 
 	class(classes) {
