@@ -1,6 +1,8 @@
 /* Licensed under the Apache License, Version 2.0. © 2016 Yury Shulaev <yury.shulaev@gmail.com> */
 'use strict'
 
+const escapeHtml = require('escape-html');
+
 class SatoriServer {
 	constructor() {
 		this.html = this.createTagFactories(this.constructor.TAGS);
@@ -51,25 +53,32 @@ class SatoriServer {
 		}
 
 		content = this.getValue(content != null ? content : modifiers.content);
+		let hasContent = content != null;
+		let contentSafe;
 
-		if (content instanceof Array) {
-			content = content.join('');
+		if (hasContent) {
+			if (content instanceof Array) {
+				contentSafe = content.map(conditionalEscape).join('');
+			} else {
+				contentSafe = conditionalEscape(content);
+			}
 		}
 
-		return '<' + tag + (attrs.length ? ' ' + attrs.join(' ') : '') + '>' + (content || '') + '</' + tag + '>';
+		return new SafeString('<' + tag + (attrs.length ? ' ' + attrs.join(' ') : '') +
+			(hasContent ? '>' + contentSafe + '</' + tag + '>' : '/>'));
 	}
 
 	class(classes) {
 		let classesStr = '';
 
 		if (typeof classes !== 'object') {
-			classesStr += classes;
+			classesStr += escapeHtml(classes);
 		} else if (classes instanceof Array) {
-			classesStr = classes.join(' ');
+			classesStr = escapeHtml(classes.join(' '));
 		} else {
 			for (let cls in classes) {
 				if (this.getValue(classes[cls])) {
-					classesStr += (classesStr ? ' ' : '') + cls;
+					classesStr += (classesStr ? ' ' : '') + escapeHtml(cls);
 				}
 			}
 		}
@@ -84,7 +93,7 @@ class SatoriServer {
 			let value = this.getValue(attrs[attr]);
 
 			if (value != null && value !== false) {
-				attrsStr += (attrsStr ? ' ' : '') + attr + '="' + value + '"';
+				attrsStr += (attrsStr ? ' ' : '') + escapeHtml(attr) + '="' + escapeHtml(value) + '"';
 			}
 		}
 
@@ -98,7 +107,7 @@ class SatoriServer {
 			let value = this.getValue(data[key]);
 
 			if (value != null && value !== false) {
-				dataStr += (dataStr ? ' ' : '') + 'data-' + key + '="' + value + '"';
+				dataStr += (dataStr ? ' ' : '') + 'data-' + escapeHtml(key) + '="' + escapeHtml(value) + '"';
 			}
 		}
 
@@ -112,7 +121,7 @@ class SatoriServer {
 			let value = this.getValue(css[key]);
 
 			if (value != null && value !== false) {
-				cssStr += (cssStr ? ' ' : '') + key + ': ' + value + ';';
+				cssStr += (cssStr ? ' ' : '') + escapeHtml(key) + ': ' + escapeHtml(value) + ';';
 			}
 		}
 
@@ -155,6 +164,20 @@ class SatoriServer {
 
 	pluralize(word, count) {
 		return word + (count !== 1 ? 's' : '');
+	}
+}
+
+function conditionalEscape(str) {
+	return str instanceof SafeString ? str.value : escapeHtml(str);
+}
+
+class SafeString {
+	constructor(value) {
+		this.value = value;
+	}
+
+	toString() {
+		return this.value;
 	}
 }
 
