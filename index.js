@@ -184,7 +184,7 @@ class SafeString {
 // todo: Reuse between client-side and server-side implementations
 SatoriServer.TAGS = [
 	'html', 'head', 'body', 'meta', 'title', 'link', 'script', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-	'ul', 'li', 'strong', 'em', 'a', 'p', 'br', 'section', 'header', 'footer', 'nav', 'article', 'img',
+	'ul', 'ol', 'li', 'strong', 'em', 'a', 'p', 'br', 'section', 'header', 'footer', 'nav', 'article', 'img',
 	'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'hr', 'form', 'fieldset', 'button', 'input', 'label', 'select', 'option',
 	'textarea', 'blockquote', 'pre', 'code', 'sub', 'sup', 'abbr', 'audio', 'video', 'canvas', 'dl', 'dd', 'dt', 'kbd',
 ];
