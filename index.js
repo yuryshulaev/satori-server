@@ -52,20 +52,23 @@ class SatoriServer {
 			content = this.list(modifiers.list);
 		}
 
-		content = this.getValue(content != null ? content : modifiers.content);
-		let hasContent = content != null;
-		let escapedContent;
+		const openingTag = '<' + tag + (attrs.length ? ' ' + attrs.join(' ') : '') + '>';
+		const isShortTag = this.constructor.SHORT_TAGS.indexOf(tag) !== -1;
 
-		if (hasContent) {
-			if (content instanceof Array) {
-				escapedContent = content.filter(Boolean).map(conditionalEscape).join('');
-			} else {
-				escapedContent = conditionalEscape(content);
-			}
+		if (isShortTag) {
+			return new SafeString(openingTag);
 		}
 
-		return new SafeString('<' + tag + (attrs.length ? ' ' + attrs.join(' ') : '') +
-			(hasContent ? '>' + escapedContent + '</' + tag + '>' : '/>'));
+		content = this.getValue(content != null ? content : modifiers.content);
+		let escapedContent = '';
+
+		if (content instanceof Array) {
+			escapedContent = content.filter(Boolean).map(conditionalEscape).join('');
+		} else if (content) {
+			escapedContent = conditionalEscape(content);
+		}
+
+		return new SafeString(openingTag + escapedContent + '</' + tag + '>');
 	}
 
 	class(classes) {
@@ -188,6 +191,8 @@ SatoriServer.TAGS = [
 	'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'hr', 'form', 'fieldset', 'button', 'input', 'label', 'select', 'option',
 	'textarea', 'blockquote', 'pre', 'code', 'sub', 'sup', 'abbr', 'audio', 'video', 'canvas', 'dl', 'dd', 'dt', 'kbd',
 ];
+
+SatoriServer.SHORT_TAGS = ['meta', 'link', 'br', 'input'];
 
 SatoriServer.Key = {};
 
