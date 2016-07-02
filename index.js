@@ -96,7 +96,7 @@ class SatoriServer {
 			let value = this.getValue(attrs[attr]);
 
 			if (value != null && value !== false) {
-				attrsStr += (attrsStr ? ' ' : '') + escapeHtml(attr) + '="' + escapeHtml(value) + '"';
+				attrsStr += (attrsStr ? ' ' : '') + attr + '="' + escapeHtml(value) + '"';
 			}
 		}
 
@@ -110,7 +110,7 @@ class SatoriServer {
 			let value = this.getValue(data[key]);
 
 			if (value != null && value !== false) {
-				dataStr += (dataStr ? ' ' : '') + 'data-' + escapeHtml(key) + '="' + escapeHtml(value) + '"';
+				dataStr += (dataStr ? ' ' : '') + 'data-' + key + '="' + escapeHtml(value) + '"';
 			}
 		}
 
