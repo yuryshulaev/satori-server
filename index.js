@@ -58,7 +58,7 @@ class SatoriServer {
 
 		if (hasContent) {
 			if (content instanceof Array) {
-				escapedContent = content.map(conditionalEscape).join('');
+				escapedContent = content.filter(Boolean).map(conditionalEscape).join('');
 			} else {
 				escapedContent = conditionalEscape(content);
 			}
