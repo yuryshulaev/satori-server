@@ -26,12 +26,12 @@ describe('SatoriServer', function () {
 
 	describe('create', function () {
 		it('should create element with text', function () {
-			let html = view.h1(model.title);
+			let html = view.h1({}, model.title);
 			assert.equal(html, '<h1>First</h1>');
 		});
 
 		it('should create element with children', function () {
-			let html = view.h1([view.span(model.title), view.span('Test')]);
+			let html = view.h1({}, [view.span({}, model.title), view.span({}, 'Test')]);
 			assert.equal(html, '<h1><span>First</span><span>Test</span></h1>');
 		});
 
@@ -67,7 +67,7 @@ describe('SatoriServer', function () {
 	});
 
 	describe('list', function () {
-		let item = value => view.li(value.title);
+		let item = value => view.li({}, value.title);
 		let itemHtml = value => '<li>' + value.title + '</li>';
 
 		it('should create elements for array items', function () {

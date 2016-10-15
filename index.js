@@ -17,15 +17,6 @@ class SatoriServer {
 	}
 
 	create(tag, modifiers, content) {
-		if (modifiers === null || typeof modifiers !== 'object' || modifiers.constructor !== Object) {
-			if (content) {
-				throw new Error('Invalid arguments');
-			}
-
-			content = modifiers;
-			modifiers = {};
-		}
-
 		let attrs = [];
 
 		if (modifiers.class) {
@@ -182,11 +173,15 @@ class SafeString {
 	toString() {
 		return this.value;
 	}
+
+	valueOf() {
+		return this.value;
+	}
 }
 
 // todo: Reuse between client-side and server-side implementations
 SatoriServer.TAGS = [
-	'html', 'head', 'body', 'meta', 'title', 'link', 'script', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+	'html', 'head', 'body', 'meta', 'title', 'link', 'script', 'style', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 	'ul', 'ol', 'li', 'strong', 'em', 'a', 'p', 'br', 'section', 'header', 'footer', 'nav', 'article', 'img',
 	'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'hr', 'form', 'fieldset', 'button', 'input', 'label', 'select', 'option',
 	'textarea', 'blockquote', 'pre', 'code', 'sub', 'sup', 'abbr', 'audio', 'video', 'canvas', 'dl', 'dd', 'dt', 'kbd',
