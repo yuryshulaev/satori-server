@@ -5,18 +5,12 @@ const escapeHtml = require('escape-html');
 
 class SatoriServer {
 	constructor() {
-		this.html = this.createTagFactories(this.constructor.TAGS);
-		Object.assign(this, this.html);
 		this.Key = this.constructor.Key;
-	}
-
-	createTagFactories(tags, obj) {
-		obj = obj || {};
-		tags.forEach(tag => {obj[tag] = (modifiers, content) => this.create(tag, modifiers, content)});
-		return obj;
+		this.h = (...args) => this.create(...args);
 	}
 
 	create(tag, modifiers, content) {
+		modifiers = modifiers || {};
 		let attrs = [];
 
 		if (modifiers.class) {
@@ -178,14 +172,6 @@ class SafeString {
 		return this.value;
 	}
 }
-
-// todo: Reuse between client-side and server-side implementations
-SatoriServer.TAGS = [
-	'html', 'head', 'body', 'meta', 'title', 'link', 'script', 'style', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-	'ul', 'ol', 'li', 'strong', 'em', 'a', 'p', 'br', 'section', 'header', 'footer', 'nav', 'article', 'img',
-	'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'hr', 'form', 'fieldset', 'button', 'input', 'label', 'select', 'option',
-	'textarea', 'blockquote', 'pre', 'code', 'sub', 'sup', 'abbr', 'audio', 'video', 'canvas', 'dl', 'dd', 'dt', 'kbd',
-];
 
 SatoriServer.SHORT_TAGS = ['meta', 'link', 'br', 'input'];
 
