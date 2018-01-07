@@ -177,4 +177,4 @@ SatoriServer.SHORT_TAGS = ['meta', 'link', 'br', 'input'];
 
 SatoriServer.Key = {};
 
-module.exports = {SatoriServer};
+module.exports = {SatoriServer, SafeString};
