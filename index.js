@@ -48,8 +48,8 @@ class SatoriServer {
 		let escapedContent = '';
 
 		if (content instanceof Array) {
-			escapedContent = content.filter(Boolean).map(conditionalEscape).join('');
-		} else if (content) {
+			escapedContent = content.filter(x => x != null).map(conditionalEscape).join('');
+		} else if (content != null) {
 			escapedContent = conditionalEscape(content);
 		}
 
